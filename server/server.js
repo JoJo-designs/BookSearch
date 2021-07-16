@@ -11,6 +11,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
+startServer();
 
 server.applyMiddleware({ app });
 
@@ -29,3 +30,7 @@ app.get('*', (req, res) => {
 db.once('open', () => {
   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
 });
+
+async function startServer() {
+  await server.start();
+}
