@@ -1,43 +1,48 @@
+// see SignupForm.js for comments
 import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
-
-// import { createUser } from '../utils/API';
-import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
+import { Form, Button, Alert } from 'react-bootstrap';
 
-const SignupForm = () => {
-  const [userFormData,  setUserFormData] = useState({
-    username: '',
+import Auth from '../utils/auth';
+
+const SignupForm = (props) => {
+  const [userFormData, setFormState] = useState({ 
     email: '',
-    password: '',
+    password: ''
   });
+  const [login, { error, data }] = useMutation(ADD_USER);
+  const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-const [addUser, {error, data}] = useMutation(ADD_USER);
 
-const handleInputChange = (event) => {
-  const {name, value} = event.target;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
 
-  setUserFormData({
-    ...userFormData,
-    [name]: value,
-  });
-};
-
-const handleFormSubmit = async (event) => {
-  event.preventDefault();
-  console.log(userFormData);
-
-  try {
-    const { data } = await addUser({
-      variables: { ...userFormData},
+    setFormState({
+      ...userFormData,
+      [name]: value,
     });
+  };
+  
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    console.log(userFormData);
+    try {
+      const { data } = await login({
+        variables: { ...userFormData },
+      });
 
-    Auth.login(data.addUser.token);
-  } catch (e) {
-    console.log(e)
-  }
-};
+      Auth.login(data.login.token);
+    } catch (e) {
+      console.error(e);
+    }
+
+    // clear form values
+    setFormState({
+      email: '',
+      password: '',
+    });
+  };
 
 
   return (
