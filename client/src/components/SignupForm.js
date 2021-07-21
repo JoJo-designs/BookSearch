@@ -8,6 +8,7 @@ import Auth from '../utils/auth';
 
 const SignupForm = (props) => {
   const [userFormData, setFormState] = useState({ 
+    username: '',
     email: '',
     password: ''
   });
@@ -38,6 +39,7 @@ const SignupForm = (props) => {
 
     // clear form values
     setFormState({
+      username: '',
       email: '',
       password: '',
     });

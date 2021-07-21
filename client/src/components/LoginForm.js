@@ -6,6 +6,7 @@ import { Form, Button, Alert } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 
+
 const LoginForm = (props) => {
   const [userFormData, setUserFormData] = useState({ email: '', password: ''});
   const [login] = useMutation(LOGIN_USER)
@@ -24,17 +25,15 @@ const handleInputChange = (event) => {
 
 const handleFormSubmit = async (event) => {
   event.preventDefault();
+  console.log(userFormData)
 
   try {
     console.log(userFormData)
-    const response = await login(userFormData);
+    const response = await login({ 
+      variables: { ...userFormData},
+    });
 
-    if (!response.ok) {
-      console.log("this is an error")
-      throw new Error('something went wrong!');
-    }
-
-    const { token, user } = await response.json();
+    const { token, user } = response.json();
     console.log(user);
     Auth.login(token);
   } catch (err) {
