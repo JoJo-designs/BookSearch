@@ -7,43 +7,55 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import Auth from '../utils/auth';
 
 const LoginForm = (props) => {
-  const [userFormData, setFormState] = useState({ 
-    email: '',
-    password: ''
-  });
-  const [login] = useMutation(LOGIN_USER);
-
-
+  const [userFormData, setUserFormData] = useState({ email: '', password: ''});
+  const [login] = useMutation(LOGIN_USER)
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
 
-    setFormState({
-      ...userFormData,
-      [name]: value,
-    });
-  };
-  
-  const handleFormSubmit = async (event) => {
+const handleInputChange = (event) => {
+  const { name, value } = event.target;
+
+  setUserFormData({
+    ...userFormData,
+    [name]: value,
+  });
+};
+
+const handleFormSubmit = async (event) => {
+  event.preventDefault();
+
+  // check if form has everything (as per react-bootstrap docs)
+  const form = event.currentTarget;
+  if (form.checkValidity() === false) {
     event.preventDefault();
-    console.log(userFormData);
-    try {
-      const { data } = await login({
-        variables: { ...userFormData },
-      });
+    event.stopPropagation();
+  }
 
-      Auth.login(data.login.token);
-    } catch (error) {
-      console.error(error);
+  try {
+    console.log(userFormData)
+    const response = await login(userFormData);
+
+    if (!response.ok) {
+      console.log("this is an error")
+      throw new Error('something went wrong!');
     }
 
-    setFormState({
-      email: '',
-      password: '',
-    });
-  };
+    const { token, user } = await response.json();
+    console.log(user);
+    Auth.login(token);
+  } catch (err) {
+    console.error(err);
+    setShowAlert(true);
+  }
+
+  setUserFormData({
+    email: '',
+    password: '',
+  });
+};
+
+
 
   return (
     <>
@@ -86,5 +98,6 @@ const LoginForm = (props) => {
     </>
   );
 };
+
 
 export default LoginForm;
