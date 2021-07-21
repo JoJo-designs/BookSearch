@@ -33,6 +33,9 @@ const resolvers = {
             const token = signToken(user);
 
             return { token, user };
+        },
+        addBook: async (parent, { profileId, title, author }) => {
+
         }
     },
 };

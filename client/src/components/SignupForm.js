@@ -11,8 +11,7 @@ const SignupForm = (props) => {
     email: '',
     password: ''
   });
-  const [login, { error, data }] = useMutation(ADD_USER);
-  const [validated] = useState(false);
+  const [signup] = useMutation(ADD_USER);
   const [showAlert, setShowAlert] = useState(false);
 
   const handleInputChange = (event) => {
@@ -28,7 +27,7 @@ const SignupForm = (props) => {
     event.preventDefault();
     console.log(userFormData);
     try {
-      const { data } = await login({
+      const { data } = await signup({
         variables: { ...userFormData },
       });
 

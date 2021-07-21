@@ -11,7 +11,9 @@ const LoginForm = (props) => {
     email: '',
     password: ''
   });
-  const [login, { error, data }] = useMutation(LOGIN_USER);
+  const [login] = useMutation(LOGIN_USER);
+
+
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -33,8 +35,8 @@ const LoginForm = (props) => {
       });
 
       Auth.login(data.login.token);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
     }
 
     setFormState({
