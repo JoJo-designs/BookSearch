@@ -26,16 +26,12 @@ const handleInputChange = (event) => {
 const handleFormSubmit = async (event) => {
   event.preventDefault();
   console.log(userFormData)
-
   try {
-    console.log(userFormData)
-    const response = await login({ 
-      variables: { ...userFormData},
+    const { response } = await login({ 
+      variables: { ...userFormData },
     });
 
-    const { token, user } = response.json();
-    console.log(user);
-    Auth.login(token);
+    Auth.login(response.login.token);
   } catch (err) {
     console.error(err);
     setShowAlert(true);
