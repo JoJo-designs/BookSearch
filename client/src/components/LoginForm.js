@@ -31,7 +31,7 @@ const handleFormSubmit = async (event) => {
       variables: { ...userFormData },
     });
 
-    Auth.login(response.login.token);
+    Auth.login(response.token);
   } catch (err) {
     console.error(err);
     setShowAlert(true);
@@ -42,8 +42,6 @@ const handleFormSubmit = async (event) => {
     password: '',
   });
 };
-
-
 
   return (
     <>
