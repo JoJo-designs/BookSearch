@@ -32,6 +32,7 @@ const handleFormSubmit = async (event) => {
     });
 
     console.log(response)
+    console.log("logging in mutation")
     Auth.login(response.token);
   } catch (err) {
     console.error(err);

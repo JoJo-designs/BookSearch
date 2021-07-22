@@ -19,6 +19,7 @@ const resolvers = {
             return { token, user };
         },
         loginUser: async (parent, { email, password }) => {
+            console.log("logging in mutation")
             const user = await User.findOne({ email });
 
             if (!user) {
