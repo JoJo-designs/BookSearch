@@ -31,6 +31,7 @@ const handleFormSubmit = async (event) => {
       variables: { ...userFormData },
     });
 
+    console.log(response)
     Auth.login(response.token);
   } catch (err) {
     console.error(err);
