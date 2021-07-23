@@ -23,3 +23,13 @@ mutation loginUser($email: String!, $password: String!) {
   }
 }
 `;
+
+export const ADD_BOOK = gql`
+mutation addBook($profileId: ID!, $bookId: String!) {
+  addBook(profileId: $profileId, bookId: $bookId) {
+    id
+    name
+    bookId
+  }
+}
+`;

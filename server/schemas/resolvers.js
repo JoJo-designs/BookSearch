@@ -35,9 +35,22 @@ const resolvers = {
 
             return { token, user };
         },
-        addBook: async (parent, { profileId, title, author }) => {
-
+        addBook: async (parent, { profileId, saveBooks }, context) => {
+            if (context.user) {
+                return User.findOneAndUpdate(
+                    { _id: profileId },
+                    {
+                        $addToSet: { saveBooks: saveBooks },
+                    }, 
+                    {
+                    new: true,
+                    runValidators: true
+                    }
+                );
+            }
+            throw new AuthenticationError('Please Log in')
         }
+        
     },
 };
 
