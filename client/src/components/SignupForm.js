@@ -12,7 +12,7 @@ const SignupForm = (props) => {
     email: '',
     password: ''
   });
-  const [signup] = useMutation(ADD_USER);
+  const [addUser] = useMutation(ADD_USER);
   const [showAlert, setShowAlert] = useState(false);
 
   const handleInputChange = (event) => {
@@ -28,11 +28,11 @@ const SignupForm = (props) => {
     event.preventDefault();
     console.log(userFormData);
     try {
-      const { data } = await signup({
-        variables: { ...userFormData },
-      });
-
-      Auth.login(data.login.token);
+      const response = await addUser({ 
+              variables: { ...userFormData },
+            });
+            console.log(response)
+            Auth.login(response.data.addUser.token)
     } catch (e) {
       console.error(e);
     }

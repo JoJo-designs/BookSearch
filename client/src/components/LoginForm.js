@@ -27,13 +27,12 @@ const handleFormSubmit = async (event) => {
   event.preventDefault();
   console.log(userFormData)
   try {
-    const { response } = await login({ 
-      variables: { ...userFormData },
-    });
-
-    console.log(response)
-    console.log("logging in mutation")
-    Auth.login(response.token);
+    const response = await login({ 
+            variables: { ...userFormData },
+          });
+          console.log(response)
+          Auth.login(response.data.loginUser.token)
+  
   } catch (err) {
     console.error(err);
     setShowAlert(true);
