@@ -31,7 +31,6 @@ export const ADD_BOOK = gql`
       username
       email
       savedBooks {
-        bookId
         authors
         image
         description
