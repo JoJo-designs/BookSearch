@@ -35,18 +35,16 @@ const resolvers = {
 
             return { token, user };
         },
-        addBook: async (parent, { bookToSave }, context) => {
+        addBook: async (parent, { bookInfo }, context) => {
             if (context.user) {
                 console.log(context.user)
-                return User.findOneAndUpdate(
+                // this looks good too
+                const updatedBookStore = await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    {
-                        $push: { bookToSave: bookToSave },
-                    }, 
-                    {
-                    new: true,
-                    }
+                    { $push: { savedBooks: bookInfo } }, 
+                    { new: true }
                 );
+                return updatedBookStore
             }
             throw new AuthenticationError('Please Log in')
         }

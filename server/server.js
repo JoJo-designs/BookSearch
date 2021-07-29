@@ -13,7 +13,6 @@ const server = new ApolloServer({
   resolvers,
   context: authMiddleware,
 });
-// startServer();
 
 
 // server.applyMiddleware({ app });
@@ -35,7 +34,9 @@ db.once('open', () => {
   });
 });
 
-// async function startServer() {
-//   await server.start();
-//   server.applyMiddleware({ app });
-// }
+startServer();
+
+async function startServer() {
+  await server.start();
+  server.applyMiddleware({ app });
+}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
+import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import { useMutation } from '@apollo/client';
 import { ADD_BOOK } from '../utils/mutations';
@@ -68,7 +68,14 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await addBook(bookToSave);
+      // this looks good
+      const response = await addBook({
+        variables: {
+          bookInfo: {
+            ...bookToSave
+          }
+        }
+      });
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -129,7 +136,7 @@ const SearchBooks = () => {
                     <Button
                       disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
                       className='btn-block btn-info'
-                      onClick={() => handleSaveBook(book.bookId)}>
+                      onClick={() => {console.log(book.bookId); handleSaveBook(book.bookId)}}>
                       {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
                         ? 'This book has already been saved!'
                         : 'Save this Book!'}
