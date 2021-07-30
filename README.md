@@ -1,7 +1,7 @@
 # BookSearch
 
 [live App](https://this-book-searcher.herokuapp.com/)
-[Git Hub](https://github.com/Road-Trip-App/RoadTripApp)
+[Git Hub](https://github.com/JoJo-designs/BookSearch)
 
 ### Description
   This book search app is powered by the google books api. User can sign up, login and, search for books. 
